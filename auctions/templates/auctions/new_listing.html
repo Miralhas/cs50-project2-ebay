@@ -1,0 +1,37 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}New Listing{% endblock %}
+    
+{% block body %}
+    <h1>Create a Listing</h1>
+    {% if message %}
+        <h4 style="color: red;">{{message}}</h1>
+    {% endif %}
+    <form action="{% url 'new_listing' %}" method="post">
+        {% csrf_token %}
+        <label for="title">Title: </label>
+        <div> 
+            <input type="text" name="title">
+        </div>
+        <br>
+        <label for="description">Description:</label>
+        <div> 
+            <textarea name="description" id="description" cols="40" rows="5">
+
+            </textarea>
+        </div>
+        <br>
+        <label for="starting_bid">Starting Bid:</label>
+        <div> 
+            <input type="number" required name="starting_bid" min="0" value="0" step=".01">
+        </div>
+        <br>
+        <label for="img_url">Image URL:</label>
+        <div> 
+            <input type="url" name="img_url">
+        </div>
+        <br>
+        <input type="submit">
+        
+    </form>
+{% endblock %}
