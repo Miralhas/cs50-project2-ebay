@@ -81,7 +81,7 @@ def listing_page(request, listing_pk):
             "listing": listing,
             "owner": listing.owner.first() == request.user,
             "template": template,
-            "comments": comment
+            "comments": comment,
         })
     
 def finish_auction(request, listing_pk):

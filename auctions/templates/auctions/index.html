@@ -5,7 +5,7 @@
     <br>
     <div class="items">    
         {% for listing in listings %}
-                <div>
+                <div style="margin: 10px;">
                     <a href="{% url 'listing_page' listing.pk %}">
                         <img src="{{listing.img_url}}" alt="" width="200" height="200">
                         <br>
