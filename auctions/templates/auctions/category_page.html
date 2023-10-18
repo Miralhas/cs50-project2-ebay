@@ -1,0 +1,20 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+    <h1>{{title}} Category</h1>
+    <br>
+    {% for category in categories %}
+        {% if category.category_listing.first.category_name == title %}
+            <a href="{% url 'listing_page' category.pk %}">
+                <div style="border: 1px ridge rgba(0, 0, 0, 0.178); margin-bottom: 20px;">
+                        <img src="{{category.img_url}}" alt="" width="200" height="200">
+                        <br>
+                        <strong style="margin-left: 40px;">{{category}}</strong>
+                        <strong>${{category.starting_bid}}</strong>
+                </div>
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

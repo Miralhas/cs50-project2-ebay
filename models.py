@@ -9,7 +9,7 @@ class AuctionListing(models.Model):
     img_url = models.URLField()
     total_bidings = models.IntegerField(default=0)
     auction_status = models.BooleanField(default=True)
-    auction_winner = models.CharField(max_length=32, default=None)
+    auction_winner = models.CharField(max_length=32, default=None, blank=True)
 
 
     def __str__(self):

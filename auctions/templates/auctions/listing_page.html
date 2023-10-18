@@ -4,28 +4,34 @@
 
 {% block body %}
 
-    <form action="{% url 'finish_auction' listing.pk  %}" method="post">
-        {% csrf_token %}
-        {% if owner and listing.auction_status %}
-            <input type="submit" name="auction_status" value="Close Auction" style="background-color: red; color: white; border-radius: 3px; border: 1px solid red; padding: 4px 9px 4px 9px;">
-        {% endif %}
-
-    </form>
+    {% if listing.auction_status and request.user.is_authenticated%}
+        <form action="{% url 'finish_auction' listing.pk  %}" method="post">
+            {% csrf_token %}
+            {% if owner %}
+                <input type="submit" name="auction_status" value="Close Auction" style="background-color: red; color: white; border-radius: 3px; border: 1px solid red; padding: 4px 9px 4px 9px;">
+            {% endif %}
+        </form>
+        <br>
+        <form action="{% url 'watchlist' listing.pk  %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="auction_status" value="Watchlist &#11088;" style="background-color: rgb(1, 119, 31); color: white; border-radius: 3px; border: 1px solid rgb(1, 119, 31); padding: 4px 9px 4px 9px;">
+        </form>
+    {% endif %}
     <h1>{{listing}}</h1>
     {% if message %}
         <h2 style="color: red;">{{message}}</h2>
     {% endif %}
 
     <br>
-    <img src="{{listing.img_url}}" alt="Image Url" height="200" width="300">
+    <img src="{{listing.img_url}}" alt="Image Url" height="200">
     <br>
 
     <p>{{listing.description}}</p>
 
     <h3>${{listing.starting_bid}}</h3>
 
-    {% if request.user == listing.first_bid.first.bid_user and listing.auction_status%}
-        <p style="font-size: 14px;">Total Bidings: {{listing.total_bidings}}. Your bid is the current bid.</p>
+    {% if request.user == listing.first_bid.last.bid_user and listing.auction_status%}
+        <p style="font-size: 14px;">Total Bidings: {{listing.total_bidings}}. <strong>Your bid is the current bid.</strong></p>
     {% else %}
         <p style="font-size: 14px;">Total Bidings: {{listing.total_bidings}}</p>
     {% endif %}
@@ -42,7 +48,26 @@
     <h3>Details</h3>
     <ul>
         <li>Listed by: {{listing.owner.first}}</li>
-        <li>Category: </li>
+        <!-- <li>Category: </li> -->
     </ul>
-
+    <hr>
+    <h3>Comments:</h3>
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li><strong>{{comment.user_comment}}</strong>: {{comment}}.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <hr>
+    {% if request.user.is_authenticated %}
+        <h3>Comment</h3>
+        <form action="{% url 'comment' listing.pk  %}" method="POST">
+            {% csrf_token %}
+            <div>    
+                <textarea name="comment" id="comment" cols="50" rows="3"></textarea>
+            </div>
+            <input type="submit">
+        </form>
+    {% endif %}
 {% endblock %}
