@@ -129,16 +129,15 @@ def watchlist_page(request):
     if user.is_authenticated:
         user = User.objects.get(username=user)
         watchlist = user.user_watchlist.all()
-        try:
-            listing_pk = user.user_watchlist.all().first().auction_listing.pk
-            return render(request, "auctions/watchlist_page.html", context={
-            "watchlist": watchlist,
-            "listing_pk": listing_pk
-        })
-        except AttributeError:
-            return render(request, "auctions/watchlist_page.html", context={
-            "watchlist": watchlist,
-        })
+        listings = []
+        for pk in watchlist:
+            listing = {}
+            listing["listing_name"] = pk.auction_listing.title
+            listing["listing_pk"] = pk.auction_listing.pk
+            listings.append(listing)
+        return render(request, "auctions/watchlist_page.html", context={
+            "listings": listings
+    })
     else:
         return HttpResponseRedirect(reverse("index"))
     

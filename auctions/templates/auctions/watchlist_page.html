@@ -4,12 +4,10 @@
 
 {% block body %}
     <ul>
-        {% if listing_pk %}
-            {% for object in watchlist %}
-                <li><a href="{% url 'listing_page' listing_pk %}">{{object}}</a></li>
-            {% endfor %}
-        {% else %}
-            <li>Empty</li>
-        {% endif %}
+        {% for listing in listings %}
+            <li><a href="{% url 'listing_page' listing.listing_pk %}">{{listing.listing_name}}</a></li>
+            {% empty %}
+                <li><strong>Empty</strong></li>
+        {% endfor %}
     </ul>
 {% endblock %}

@@ -3,14 +3,16 @@
 {% block body %}
     <h2>Active Listings</h2>
     <br>
-    {% for listing in listings %}
-        <div style="border: 1px ridge rgba(0, 0, 0, 0.178); margin-bottom: 20px;">
-            <a href="{% url 'listing_page' listing.pk %}">
-                <img src="{{listing.img_url}}" alt="" width="200" height="200">
-                <br>
-                <strong style="margin-left: 40px;">{{listing}}</strong>
-                <strong>${{listing.starting_bid}}</strong>
-            </a>
-        </div>
-    {% endfor %}
+    <div class="items">    
+        {% for listing in listings %}
+                <div>
+                    <a href="{% url 'listing_page' listing.pk %}">
+                        <img src="{{listing.img_url}}" alt="" width="200" height="200">
+                        <br>
+                        <strong style="margin-left: 40px;">{{listing}}</strong>
+                        <strong>${{listing.starting_bid}}</strong>
+                    </a>
+                </div>
+        {% endfor %}
+    </div>
 {% endblock %}

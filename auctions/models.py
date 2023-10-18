@@ -44,7 +44,7 @@ class Watchlist(models.Model):
     user_watchlist = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_watchlist")
 
     def __str__(self):
-        return f"{self.auction_listing}"
+        return f"{self.auction_listing} | {self.user_watchlist}"
 
 class Categories(models.Model):
     category_name = models.CharField(max_length=25)
