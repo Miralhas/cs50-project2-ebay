@@ -111,10 +111,6 @@ def comment(request, listing_pk):
         return HttpResponseRedirect(reverse("index"))
 
 def watchlist(request, listing_pk):
-    # if not request.user.is_authenticated:
-    #     return render(request, "auctions/listing_page.html", context={
-    #         "message": "Login first!"
-    #     })
     if request.method == "POST":
         user = request.user
         auc = AuctionListing.objects.get(pk=listing_pk)
