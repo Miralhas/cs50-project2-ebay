@@ -5,7 +5,7 @@
 {% block body %}
     <ul>
         {% for listing in listings %}
-            <li><a href="{% url 'listing_page' listing.listing_pk %}">{{listing.listing_name}}</a></li>
+            <li><a href="{% url 'listing_page' listing.pk %}">{{listing.title}}</a></li>
             {% empty %}
                 <li><strong>Empty</strong></li>
         {% endfor %}

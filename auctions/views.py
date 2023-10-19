@@ -124,13 +124,13 @@ def watchlist_page(request):
     user = request.user
     if user.is_authenticated:
         user = User.objects.get(username=user)
-        watchlist = user.user_watchlist.all()
+        watchlist = user.user_watchlist.all().values("auction_listing").distinct()
         listings = []
-        for pk in watchlist:
-            listing = {}
-            listing["listing_name"] = pk.auction_listing.title
-            listing["listing_pk"] = pk.auction_listing.pk
-            listings.append(listing)
+        for listing in watchlist:
+            x = AuctionListing.objects.get(pk=listing["auction_listing"])
+            listings.append(x)
+        print(listings)
+        # return HttpResponseRedirect(reverse("index"))  
         return render(request, "auctions/watchlist_page.html", context={
             "listings": listings
     })
@@ -148,14 +148,7 @@ def categories(request):
     x = []
     for ctg in categories_array:
         x.append(Categories.objects.filter(category_name=ctg).values().first())
-
-    for dictionary in x:
-        for key, value in dictionary.items():
-            print(key, value)
-    
-    for dictionary in x:
-        dictionary.pop("id")
-    print(x)
+        
     return render(request, "auctions/categories.html", context={
         "categories": all_categories,
         "teste": x
@@ -195,7 +188,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":

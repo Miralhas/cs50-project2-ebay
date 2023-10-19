@@ -3,7 +3,7 @@
 {% block body %}
     <h2>Active Listings</h2>
     <br>
-    <div class="items">    
+    <div style="display: flex; flex-wrap: wrap;">    
         {% for listing in listings %}
                 <div style="margin: 10px;">
                     <a href="{% url 'listing_page' listing.pk %}">
